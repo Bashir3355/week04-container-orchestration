@@ -1,0 +1,5 @@
+{
+  "status": "NOT RUN",
+  "scope": "Browser verification",
+  "reason": "Browser could not start in the available environment. No visual, console, or network-panel pass is claimed. Complete these checks in the deployed app on your computer."
+}

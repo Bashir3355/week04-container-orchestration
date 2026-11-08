@@ -1,0 +1,10 @@
+.git
+node_modules
+dist
+evidence
+docs
+k8s
+*.zip
+.env
+.env.*
+README.md

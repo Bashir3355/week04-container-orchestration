@@ -1,0 +1,14 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createApp } from '../src/server.js';
+const app = createApp({ version: 'test-v1' });
+let base;
+test.before(async () => { await new Promise(resolve => app.server.listen(0, '127.0.0.1', resolve)); base = `http://127.0.0.1:${app.server.address().port}`; });
+test.after(async () => { app.server.closeAllConnections(); await new Promise(resolve => app.server.close(resolve)); });
+test('landing page returns HTML and security headers', async () => { const r=await fetch(base);assert.equal(r.status,200);assert.match(await r.text(),/Bashir’s Container Lab/);assert.equal(r.headers.get('x-content-type-options'),'nosniff'); });
+test('health reports HTTP 200 with healthy payload',async()=>{const r=await fetch(base+'/healthz');assert.equal(r.status,200);assert.deepEqual(await r.json(),{status:'healthy'});});
+test('readiness fails during drain without failing liveness',async()=>{app.setReady(false);assert.equal((await fetch(base+'/readyz')).status,503);assert.equal((await fetch(base+'/healthz')).status,200);app.setReady(true);assert.equal((await fetch(base+'/readyz')).status,200);});
+test('runtime exposes instance identity, version and uptime without environment dump',async()=>{const r=await fetch(base+'/api/runtime');const d=await r.json();assert.equal(r.status,200);assert.ok(d.hostname);assert.ok(d.podName);assert.equal(d.version,'test-v1');assert.ok(d.uptimeSeconds>=0);assert.equal('env' in d,false);});
+test('unknown endpoints return 404',async()=>assert.equal((await fetch(base+'/missing')).status,404));
+test('unsupported methods return 405',async()=>assert.equal((await fetch(base+'/healthz',{method:'POST'})).status,405));
+test('HEAD returns headers with no body',async()=>{const r=await fetch(base,{method:'HEAD'});assert.equal(r.status,200);assert.equal(await r.text(),'');});

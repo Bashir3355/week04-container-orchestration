@@ -1,0 +1,20 @@
+# Intentionally incomplete AI teaching draft. Do not deploy.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+        - name: web
+          image: week04-web:latest
+          ports:
+            - containerPort: 8080

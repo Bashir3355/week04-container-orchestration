@@ -1,0 +1,7 @@
+# Intentionally flawed AI teaching draft. Do not build or deploy this file.
+FROM node:latest
+WORKDIR /app
+COPY . .
+RUN npm install
+EXPOSE 8080
+CMD ["node", "src/server.js"]

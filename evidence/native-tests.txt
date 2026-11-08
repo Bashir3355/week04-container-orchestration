@@ -1,0 +1,20 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> week04-container-orchestration@1.0.0 test
+> node --test tests/*.test.js
+
+✔ landing page returns HTML and security headers (47.240627ms)
+✔ health reports HTTP 200 with healthy payload (9.600383ms)
+✔ readiness fails during drain without failing liveness (9.985915ms)
+✔ runtime exposes instance identity, version and uptime without environment dump (6.306487ms)
+✔ unknown endpoints return 404 (8.145027ms)
+✔ unsupported methods return 405 (2.824265ms)
+✔ HEAD returns headers with no body (9.999082ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 461.492598
